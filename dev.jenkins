@@ -1,7 +1,7 @@
 pipeline {
     agent any
 	parameters {
-        string(defaultValue: '1.4.0', description: 'Specify the build version to promote to QA', name: 'version')
+        string(defaultValue: '1.4.0', description: 'Specify the build version to promote to dev', name: 'version')
 		booleanParam (defaultValue: false, description: 'Skip Backend Test', name : 'skipBackendTests')
     }
     options {
@@ -27,7 +27,7 @@ pipeline {
 	}
 	post {
          success {  
-             echo 'The Integration pipeline ran successfully.'
+             echo 'The  pipeline ran successfully.'
          }  
        }          
 }
