@@ -13,7 +13,7 @@ pipeline {
         stage ('Compile API') {
             steps {
                 
-                   sh "/opt/maven/bin/mvn clean deploy -Dversion=$version -DBUILD_NUMBER=${BUILD_NUMBER}"
+                   sh "/opt/maven/bin/mvn clean verify -Dversion=$version -DBUILD_NUMBER=${BUILD_NUMBER}"
                 
             }
         }
