@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+	parameters {
+        string(defaultValue: '1.4.0', description: 'Specify the build version to promote to QA', name: 'version')
+		booleanParam (defaultValue: false, description: 'Skip Backend Test', name : 'skipBackendTests')
+    }
+    options {
+        disableConcurrentBuilds()
+    }
+	
+    stages {
+        
+        stage ('Compile API') {
+            steps {
+                lock('docker-test-database') {
+                   sh "/opt/maven/bin/mvn clean deploy -Dversion=$version -DBUILD_NUMBER=${BUILD_NUMBER}"
+                }
+            }
+        }
+		stage ('Publish to Nexus') {
+					steps {
+						sh  "mvn deploy"
+					}
+				}
+        
+               
+	}
+	post {
+         success {  
+             echo 'The Integration pipeline ran successfully.'
+         }  
+       }          
+}
