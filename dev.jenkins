@@ -12,9 +12,9 @@ pipeline {
         
         stage ('Compile API') {
             steps {
-                lock('docker-test-database') {
+                
                    sh "/opt/maven/bin/mvn clean deploy -Dversion=$version -DBUILD_NUMBER=${BUILD_NUMBER}"
-                }
+                
             }
         }
 		stage ('Publish to Nexus') {
