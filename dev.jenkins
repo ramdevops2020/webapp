@@ -25,12 +25,13 @@ pipeline {
 			
 		stage ('Deploy') {
 			steps {
-				sh  '''
-					war=WebApp-"$version"."${BUILD_NUMBER}"-SNAPSHOT.war
-					echo $war
-					cd /root/ansible/deploy
-					ansible-playbook deploy.yml -extra-vars "warName=$war"
-					'''
+				dir('root/ansible/deploy') {
+					sh  '''
+						war=WebApp-"$version"."${BUILD_NUMBER}"-SNAPSHOT.war
+						echo $war
+						ansible-playbook deploy.yml -extra-vars "warName=$war"
+						'''
+					}
 				}
 			}
         
