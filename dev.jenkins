@@ -29,7 +29,7 @@ pipeline {
 					sh  '''
 						war=WebApp-"$version"."${BUILD_NUMBER}"-SNAPSHOT.war
 						echo $war
-						ansible-playbook deploy.yml -extra-vars '"'"warName=$war"'"'
+						ansible-playbook deploy.yml --extra-vars '"'"warName=$war"'"'
 						'''
 					}
 				}
