@@ -25,7 +25,7 @@ pipeline {
 			
 		stage ('Deploy') {
 			steps {
-				dir('/opt/ansible/deploy') {
+				dir('/root/ansible/deploy') {
 					sh  '''
 						war=WebApp-"$version"."${BUILD_NUMBER}"-SNAPSHOT.war
 						echo $war
