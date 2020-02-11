@@ -9,27 +9,13 @@ pipeline {
     }
 	
     stages {
-        
-        stage ('Compile API') {
-            steps {
-                
-                   sh "/opt/maven/bin/mvn clean verify -Dversion=$version -DBUILD_NUMBER=${BUILD_NUMBER}"
-                
-            }
-        }
-		stage ('Publish to Nexus') {
-			steps {
-				sh  "/opt/maven/bin/mvn deploy"
-				}
-			}
-			
 		stage ('Deploy') {
 			steps {
 				dir('/root/ansible/deploy') {
 					sh  '''
 						war=WebApp-"$version"."${BUILD_NUMBER}"-SNAPSHOT.war
 						echo $war
-						ansible-playbook deploy.yml --extra-vars '"'"warName=$war"'"'
+						ansible-playbook deploy.yml --extra-vars '"'warName="$war"'"'
 						'''
 					}
 				}
