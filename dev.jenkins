@@ -18,10 +18,20 @@ pipeline {
             }
         }
 		stage ('Publish to Nexus') {
-					steps {
-						sh  "/opt/maven/bin/mvn deploy"
-					}
+			steps {
+				sh  "/opt/maven/bin/mvn deploy"
 				}
+			}
+			
+		stage ('Deploy') {
+			steps {
+				sh  '''
+					war=WebApp-"$version"."${BUILD_NUMBER}"-SNAPSHOT.war
+					echo $warName
+					
+					'''
+				}
+			}
         
                
 	}
