@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+	parameters {
+        string(defaultValue: '1.4.0', description: 'Specify the build version to promote to dev', name: 'version')
+		booleanParam (defaultValue: false, description: 'Skip Backend Test', name : 'skipBackendTests')
+    }
+    options {
+        disableConcurrentBuilds()
+    }
+	
+    stages {
+        
+        stage ('Compile API') {
+            steps {
+                
+                   sh "/opt/maven/bin/mvn clean verify -Dversion=$version -DBUILD_NUMBER=${BUILD_NUMBER}"
+                
+            }
+        }
+		stage ('Publish to Nexus') {
+			steps {
+				sh  "/opt/maven/bin/mvn deploy"
+				}
+			}
+			
+		stage ('Deploy') {
+					steps {
+						dir('/root/ansible/deploy') {
+							sh  '''
+								war="$version"."${BUILD_NUMBER}"-SNAPSHOT
+								echo $war
+								ansible-playbook deployprod.yml --extra-vars "warName=$war"
+								'''
+							}
+						}
+					}
+	}
+	post {
+         success {  
+             echo 'The  pipeline ran successfully.'
+         }  
+       }          
+}
