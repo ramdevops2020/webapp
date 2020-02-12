@@ -1,7 +1,7 @@
 pipeline {
     agent any
 	parameters {
-        string(defaultValue: '1.4.0', description: 'Specify the build version to promote to dev', name: 'version')
+        string(defaultValue: '1.5.0', description: 'Specify the build version to promote to dev', name: 'version')
 		booleanParam (defaultValue: false, description: 'Skip Backend Test', name : 'skipBackendTests')
     }
     options {
